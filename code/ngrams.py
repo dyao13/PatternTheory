@@ -69,19 +69,15 @@ def get_ngrams(text, ngram_type, n):
     Returns:
         Counter: A Counter object with the n-grams and their counts.
     """
+    alphabet = set(string.ascii_lowercase + ' ')
+    text = text.lower()
+    text = "".join(a for a in text if a in alphabet)
+
     if ngram_type == 'word':
-        extra_chars = "’‘“”"
-        remove_chars = string.punctuation + extra_chars
-        translator = str.maketrans('', '', remove_chars)
-        text = text.translate(translator)
-        text = text.lower()
         tokens = nltk.word_tokenize(text)
         ngrams_list = list(ngrams(tokens, n))
     elif ngram_type == 'char':
-        text = text.lower()
-        allowed_chars = set(string.ascii_lowercase + ' ')
-        filtered_text = "".join(ch for ch in text if ch in allowed_chars)
-        ngrams_list = [filtered_text[i:i+n] for i in range(len(filtered_text) - n + 1)]
+        ngrams_list = [text[i:i+n] for i in range(len(text) - n + 1)]
     else:
         raise ValueError("ngram_type must be 'word' or 'char'")
     
@@ -165,11 +161,11 @@ def main():
     print("\nTop 10 most common word 2-grams:")
     print(word_bigram_counts.head(10))
 
-    generated_text = generate_text(char_onegram_counts, 'char', 2, 100)
+    generated_text = generate_text(char_bigram_counts, 'char', 2, 100)
     print("\nGenerated text:")
     print(generated_text)
 
-    generated_text = generate_text(word_onegram_counts, 'word', 2, 10)
+    generated_text = generate_text(word_bigram_counts, 'word', 2, 10)
     print("\nGenerated text:")
     print(generated_text)
 

@@ -1,11 +1,10 @@
 import os
-
-import ngrams
 import random
 import math
 from tqdm import tqdm
 from collections import Counter
-import string
+
+import ngrams
 
 def inv_perm(perm):
     """
@@ -134,11 +133,9 @@ def main():
 
     text = "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way—in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only."
     
-    extra_chars = "’‘“”"
-    remove_chars = string.punctuation + extra_chars
-    translator = str.maketrans('', '', remove_chars)
-    text = text.translate(translator)
+    alphabet = set(alphabet)
     text = text.lower()
+    text = "".join(a for a in text if a in alphabet)
 
     scrambled_text = "".join([sigma.get(symbol, symbol) for symbol in text])
 
