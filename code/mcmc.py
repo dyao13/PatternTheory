@@ -61,7 +61,7 @@ def propose_permutation(perm):
 
     return new_perm
 
-def metropolis_step(perm, scrambled_text, P, Q, beta=1, old_energy=None):
+def metropolis_step(perm, scrambled_text, P, Q, beta=1, old_energy=math.inf):
     """
     Performs a single step of the Metropolis-Hastings algorithm.
 
@@ -76,9 +76,6 @@ def metropolis_step(perm, scrambled_text, P, Q, beta=1, old_energy=None):
         dict: The new permutation.
     """
     new_perm = propose_permutation(perm)
-    
-    if old_energy is None:
-        old_energy = energy_function(perm, scrambled_text, P, Q)
     
     new_energy = energy_function(new_perm, scrambled_text, P, Q)
 
@@ -139,18 +136,18 @@ def main():
 
     scrambled_text = "".join([sigma.get(symbol, symbol) for symbol in text])
 
-    print(f"Scrambled text: {scrambled_text}")
-
     chain = metropolis_hastings(scrambled_text, P, Q, beta=1, n=10**5)
 
     count = Counter([tuple(perm.items()) for perm in chain])
     perms = count.most_common(1)
     
+    print(f"Scrambled text: \n{scrambled_text}\n")
+
     for perm, freq in perms:
         perm_inv = inv_perm(dict(perm))
         decoded_text = "".join([perm_inv.get(symbol, symbol) for symbol in scrambled_text])
-        print(f"Frequency: {freq/len(chain)}")
-        print(f"Decoded text: {decoded_text}")
+        print(f"Frequency: \n{freq/len(chain)}\n")
+        print(f"Decoded text: \n{decoded_text}")
 
 if __name__ == "__main__":
     main()
