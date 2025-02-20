@@ -1,17 +1,19 @@
 import os
-import nltk
-nltk.download('punkt')
-nltk.download('punkt_tab')
 from nltk.util import ngrams
 from collections import Counter
 import string
 import pandas as pd
 import random
 from tqdm import tqdm
+import re
+
+import nltk
+nltk.download('punkt')
+nltk.download('punkt_tab')
 
 def load_ngrams(file_path, ngram_type, n):
     """
-    Load the n-grams from the file (Crime and Punishment).
+    Load the n-grams from the file.
 
     Parameters:
         file_path (str): The path to the file containing the text.
@@ -35,7 +37,7 @@ def load_ngrams(file_path, ngram_type, n):
 
 def remove_gutenberg_header_footer(text):
     """
-    Remove the Project Gutenberg header and footer from the text (Crime and Punishment).
+    Remove the Project Gutenberg header and footer from the text.
 
     Parameters:
         text (str): The text to process.
@@ -43,8 +45,8 @@ def remove_gutenberg_header_footer(text):
     Returns:
         str: The text without the Project Gutenberg header and footer.
     """
-    start_marker = "*** START OF THE PROJECT GUTENBERG EBOOK CRIME AND PUNISHMENT ***"
-    end_marker = "*** END OF THE PROJECT GUTENBERG EBOOK CRIME AND PUNISHMENT ***"
+    start_marker = r"\*\*\* START OF THE PROJECT GUTENBERG .* \*\*\*"
+    end_marker = r"\*\*\* END OF THE PROJECT GUTENBERG .* \*\*\*"
 
     start = text.find(start_marker)
     end = text.find(end_marker)
@@ -69,14 +71,18 @@ def get_ngrams(text, ngram_type, n):
     Returns:
         Counter: A Counter object with the n-grams and their counts.
     """
-    alphabet = set(string.ascii_lowercase + ' ')
-    text = text.lower()
-    text = "".join(a for a in text if a in alphabet)
-
     if ngram_type == 'word':
+        alphabet = set(string.ascii_lowercase + " ")
+        text = text.lower()
+        text = "".join(a for a in text if a in alphabet)
+
         tokens = nltk.word_tokenize(text)
         ngrams_list = list(ngrams(tokens, n))
     elif ngram_type == 'char':
+        alphabet = set(string.ascii_lowercase)
+        text = text.lower()
+        text = "".join(a for a in text if a in alphabet)
+    
         ngrams_list = [text[i:i+n] for i in range(len(text) - n + 1)]
     else:
         raise ValueError("ngram_type must be 'word' or 'char'")
@@ -143,7 +149,7 @@ def generate_text(df, type, n, length):
     return text
 
 def main():
-    file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'pg2554.txt')
+    file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'pg28054.txt')
 
     char_onegram_counts = load_ngrams(file_path, 'char', 1)
     char_bigram_counts = load_ngrams(file_path, 'char', 2)
