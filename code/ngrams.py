@@ -71,18 +71,15 @@ def get_ngrams(text, ngram_type, n):
     Returns:
         Counter: A Counter object with the n-grams and their counts.
     """
-    if ngram_type == 'word':
-        alphabet = set(string.ascii_lowercase + " ")
-        text = text.lower()
-        text = "".join(a for a in text if a in alphabet)
+    alphabet = set(string.ascii_lowercase + " ")
+    text = text.lower()
 
+    if ngram_type == 'word':
+        text = "".join(a for a in text if a in alphabet)
         tokens = nltk.word_tokenize(text)
         ngrams_list = list(ngrams(tokens, n))
     elif ngram_type == 'char':
-        alphabet = set(string.ascii_lowercase)
-        text = text.lower()
         text = "".join(a for a in text if a in alphabet)
-    
         ngrams_list = [text[i:i+n] for i in range(len(text) - n + 1)]
     else:
         raise ValueError("ngram_type must be 'word' or 'char'")

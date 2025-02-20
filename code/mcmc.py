@@ -42,7 +42,7 @@ def energy_function(perm, scrambled_text, P, Q):
 
     for j in range(len(decoded_text) - 1):
         bigram = (decoded_text[j], decoded_text[j+1])
-        energy -= math.log(Q.get(bigram, epsilon))
+        energy = energy - math.log(Q.get(bigram, epsilon))
     
     return energy
 
@@ -158,7 +158,7 @@ def main():
     P = {row['1-gram']: row['frequency'] for _, row in df1.iterrows()}
     Q = {tuple(row['2-gram']): row['frequency'] for _, row in df2.iterrows()}
 
-    alphabet = list("abcdefghijklmnopqrstuvwxyz")
+    alphabet = list("abcdefghijklmnopqrstuvwxyz ")
     permutation = alphabet.copy()
     random.shuffle(permutation)
 
@@ -172,7 +172,7 @@ def main():
 
     scrambled_text = "".join([sigma.get(symbol, symbol) for symbol in text])
 
-    state_chain, energy_chain, best_perm, best_energy = metropolis_hastings(scrambled_text, P, Q, beta=1, n=10**6, perm=None, return_chain=True)
+    state_chain, energy_chain, best_perm, best_energy = metropolis_hastings(scrambled_text, P, Q, beta=0.5, n=10**6, perm=None, return_chain=True)
 
     best_perm = inv_perm(best_perm)
     decoded_text = "".join([best_perm.get(symbol, symbol) for symbol in scrambled_text])
