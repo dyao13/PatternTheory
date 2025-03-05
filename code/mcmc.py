@@ -140,7 +140,7 @@ def metropolis_hastings(scrambled_text, P, Q, beta=1, n=10**5, perm=None, return
         
         return state_chain[10**4:], energy_chain[10**4:], best_perm, best_energy
 
-    for _ in tqdm(range(n)):
+    for _ in tqdm(range(n+10**4)):
         perm, energy, old_states = metropolis_step(perm, scrambled_text, P, Q, beta, energy, old_states)
 
         if energy < best_energy:

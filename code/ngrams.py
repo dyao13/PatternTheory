@@ -5,7 +5,6 @@ import string
 import pandas as pd
 import random
 from tqdm import tqdm
-import re
 
 import nltk
 nltk.download('punkt')

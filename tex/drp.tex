@@ -4,44 +4,54 @@
 
 \begin{document}
 
-\textbf{Metropolis-Hastings Algorithm.} Suppose that we have a Markov chain with transition matrix $P$ with a limiting distribution $\pi$. A sufficient condition for such to hold is (1) \textit{detailed balance} 
-$$P(x) P(x' \mid x) = P(x') P(x \mid x')$$
-and (2) \textit{ergodicity}, i.e., that the chain be aperiodic and positive recurrent. We have that 
-\begin{align*}
-    P(x' \mid x) P(x) &= P(x' \mid x) P(x) \\
-    \frac{P(x' \mid x)}{P(x \mid x')} &= \frac{P(x')}{P(x)}.
-\end{align*}
-Denote $g(x' \mid x)$ the proposal distribution and $A(x', x)$ the acceptance probability. We then have that 
-$$P(x' \mid x) = g(x' \mid x) A(x', x),$$
-so 
-$$\frac{A(x', x)}{A(x, x')} = \frac{P(x')}{P(x)} \frac{g(x' \mid x)}{g(x \mid x')}.$$
-Take the choice 
-$$A(x', x) = \min\left(1, \frac{P(x')}{P(x)} \frac{g(x' \mid x)}{g(x \mid x')}\right).$$
-Observe then that 
-$$0 \leq A(x', x) \leq 1.$$
-The Metroplis-Hastings algorithm is then as follows.
-\begin{enumerate}
-\item[(1)] Intialize.
-\subitem(i) Pick an initial state $x_{0}$.
-\subitem(ii) Set $t = 0$.
-\item[(2)] Iterate.
-\subitem(i) Generate a random candidate state $x'$ according to $g(x' \mid x_{t})$.
-\subitem(ii) Calculate the acceptance probability $A(x', x_{t})$.
-\subitem(iii) Generate a uniform random number $u \in [0, 1]$.
-\subitem(iv) If $u \leq A(x', x_{t})$, then accept the new state and set $x_{t+1} = x'$.
-\subitem(v) Otherwise, reject the new state and set $x_{t+1} = x_{t}$.
-\subitem(vi) Increment $t = t+1$.
-\end{enumerate}
-In particular, we are interested in sampling from the Gibbs distribution 
-$$\pi(x) = \frac{1}{Z_{\beta}} e^{-\beta H(x)}$$
-for $x \in S$ where $Z_{\beta}$ is the partition function 
-$$Z_{\beta} = \sum_{y \in S} e^{-\beta E(y)}$$
-for an energy function $E: S \to \mathbb{R}$ and an inverse temperature $\beta > 0$. Recall that we have the likelihood function 
+% \textbf{Metropolis-Hastings Algorithm.} Suppose that we have a Markov chain with transition matrix $P$ with a limiting distribution $\pi$. A sufficient condition for such to hold is (1) \textit{detailed balance} 
+% $$P(x) P(x' \mid x) = P(x') P(x \mid x')$$
+% and (2) \textit{ergodicity}, i.e., that the chain be aperiodic and positive recurrent. We have that 
+% \begin{align*}
+%     P(x' \mid x) P(x) &= P(x' \mid x) P(x) \\
+%     \frac{P(x' \mid x)}{P(x \mid x')} &= \frac{P(x')}{P(x)}.
+% \end{align*}
+% Denote $g(x' \mid x)$ the proposal distribution and $A(x', x)$ the acceptance probability. We then have that 
+% $$P(x' \mid x) = g(x' \mid x) A(x', x),$$
+% so 
+% $$\frac{A(x', x)}{A(x, x')} = \frac{P(x')}{P(x)} \frac{g(x' \mid x)}{g(x \mid x')}.$$
+% Take the choice 
+% $$A(x', x) = \min\left(1, \frac{P(x')}{P(x)} \frac{g(x' \mid x)}{g(x \mid x')}\right).$$
+% Observe then that 
+% $$0 \leq A(x', x) \leq 1.$$
+% The Metroplis-Hastings algorithm is then as follows.
+% \begin{enumerate}
+% \item[(1)] Intialize.
+% \subitem(i) Pick an initial state $x_{0}$.
+% \subitem(ii) Set $t = 0$.
+% \item[(2)] Iterate.
+% \subitem(i) Generate a random candidate state $x'$ according to $g(x' \mid x_{t})$.
+% \subitem(ii) Calculate the acceptance probability $A(x', x_{t})$.
+% \subitem(iii) Generate a uniform random number $u \in [0, 1]$.
+% \subitem(iv) If $u \leq A(x', x_{t})$, then accept the new state and set $x_{t+1} = x'$.
+% \subitem(v) Otherwise, reject the new state and set $x_{t+1} = x_{t}$.
+% \subitem(vi) Increment $t = t+1$.
+% \end{enumerate}
+% In particular, we are interested in sampling from the Gibbs distribution 
+% $$\pi(x) = \frac{1}{Z_{\beta}} e^{-\beta H(x)}$$
+% for $x \in S$ where $Z_{\beta}$ is the partition function 
+% $$Z_{\beta} = \sum_{y \in S} e^{-\beta E(y)}$$
+% for an energy function $E: S \to \mathbb{R}$ and an inverse temperature $\beta > 0$. Recall that we have the likelihood function 
+% $$L(\sigma) = P(\sigma^{-1}(b_{1}))\prod_{j=1}^{n-1}Q(\sigma^{-1}(b_{j+1}) \mid \sigma^{-1}(b_{j})).$$
+% Define the energy function 
+% \begin{align*}
+%     E(\sigma) &= -\log L(\sigma) \\
+%     &= -\log P(\sigma^{-1}(b_{1})) - \sum_{j=1}^{n-1} \log Q(\sigma^{-1}(b_{j+1}) \mid \sigma^{-1}(b_{j})).
+% \end{align*}
+
+\textbf{Vigenere Cipher.} 
+
+Suppose that our key is a sequence $(k_{1}, \ldots k_{n}, k_{1}, \ldots, k_{n}, \ldots)$ for some key length $n \in Z_{+}$. The keyspace $K$ has cardinality $m^{n}$ where $m$ is the size of the alphabet, say $m = 27$. A cipher is then a function $\sigma$ with the rule 
+$$\sigma_{i}(b_{i}) = (b_{i} + k_{i}) \mod m.$$
+The likelihood function is the same as before, that is, 
 $$L(\sigma) = P(\sigma^{-1}(b_{1}))\prod_{j=1}^{n-1}Q(\sigma^{-1}(b_{j+1}) \mid \sigma^{-1}(b_{j})).$$
-Define the energy function 
-\begin{align*}
-    E(\sigma) &= -\log L(\sigma) \\
-    &= -\log P(\sigma^{-1}(b_{1})) - \sum_{j=1}^{n-1} \log Q(\sigma^{-1}(b_{j+1}) \mid \sigma^{-1}(b_{j})).
-\end{align*}
+Our energy function is also the same as before, that is, 
+$$E = -\log P(\sigma^{-1}(b_{1})) - \sum_{j=1}^{n-1} \log Q(\sigma^{-1}(b_{j+1}) \mid \sigma^{-1}(b_{j})).$$
+Suppose that the key length is known. If our current key is $(l{1}, \ldots, l_{n}, l_{1}, \ldots, l_{n})$, then we may propose a new key by choosing an index $i \in \{1, \ldots n\}$ uniformly at random and then choosing a new letter $l_{i}'$ uniformly at random.
 
 \end{document}
