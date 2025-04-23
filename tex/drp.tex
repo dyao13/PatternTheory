@@ -46,12 +46,26 @@
 
 \textbf{Vigenere Cipher.} 
 
-Suppose that our key is a sequence $(k_{1}, \ldots k_{n}, k_{1}, \ldots, k_{n}, \ldots)$ for some key length $n \in Z_{+}$. The keyspace $K$ has cardinality $m^{n}$ where $m$ is the size of the alphabet, say $m = 27$. A cipher is then a function $\sigma$ with the rule 
-$$\sigma_{i}(b_{i}) = (b_{i} + k_{i}) \mod m.$$
-The likelihood function is the same as before, that is, 
-$$L(\sigma) = P(\sigma^{-1}(b_{1}))\prod_{j=1}^{n-1}Q(\sigma^{-1}(b_{j+1}) \mid \sigma^{-1}(b_{j})).$$
+Suppose that our key is a sequence $(k_{1}, \ldots k_{n}, k_{1}, \ldots, k_{n}, \ldots)$ for some key length $n \in Z_{+}$. The keyspace $K$ has cardinality $m^{n}$ where $m$ is the size of the alphabet $A$, say $m = 27$. For a text of length $N$, a cipher is then a function $\sigma: A^{N} \to A^{N}$ with the rule 
+$$\sigma_{i}(b_{i}) = (b_{i} + k_{i}) \mod m$$
+for $i = 1, \ldots N$. The likelihood function is the same as before, that is, 
+$$L(\sigma) = P(\sigma_{1}^{-1}(b_{1}))\prod_{j=1}^{n-1}Q(\sigma_{j+1}^{-1}(b_{j+1}) \mid \sigma_{j}^{-1}(b_{j})).$$
 Our energy function is also the same as before, that is, 
-$$E = -\log P(\sigma^{-1}(b_{1})) - \sum_{j=1}^{n-1} \log Q(\sigma^{-1}(b_{j+1}) \mid \sigma^{-1}(b_{j})).$$
-Suppose that the key length is known. If our current key is $(l{1}, \ldots, l_{n}, l_{1}, \ldots, l_{n})$, then we may propose a new key by choosing an index $i \in \{1, \ldots n\}$ uniformly at random and then choosing a new letter $l_{i}'$ uniformly at random.
+$$E(\sigma) = -\log P(\sigma_{1}^{-1}(b_{1})) - \sum_{j=1}^{n-1} \log Q(\sigma_{j+1}^{-1}(b_{j+1}) \mid \sigma_{j}^{-1}(b_{j})).$$
+Suppose that the key length is known. If our current key is $(l_{1}, \ldots, l_{n}, l_{1}, \ldots, l_{n})$, then we may propose a new key by choosing an index $i \in \{1, \ldots n\}$ uniformly at random and then choosing a new letter $l_{i}'$ uniformly at random.
+
+\textbf{Running Key Cipher.}
+
+Suppose that our key is a sequence $(k_{1}, \ldots k_{N})$ for some key length $N \in Z_{+}$, where $N$ is the length of the text. The keyspace $K$ has cardinality $m^{N}$ where $m$ is the size of the alphabet $A$, say $m = 27$. For a text of length $N$, a cipher is then the tuple $(k, \sigma)$, where $\sigma: A^{N} \to A^{N}$ is a function with the rule 
+$$\sigma_{i}(b_{i}) = (b_{i} + k_{i}) \mod m$$
+for $i = 1, \ldots N$. But now suppose that the key is also of natural language. So our prior for the likelihood of a key $k \in K$ is 
+$$P(k) = P(k_{1}) \prod_{j=1}^{N-1} Q(k_{j+1} \mid k_{j}).$$
+The likelihood function is the same as before, that is,
+$$L(\sigma) = P(\sigma_{1}^{-1}(b_{1}))\prod_{j=1}^{N-1}Q(\sigma_{j+1}^{-1}(b_{j+1}) \mid \sigma_{j}^{-1}(b_{j})),$$
+so our posterior is 
+$$P(k \mid b) = \frac{L(\sigma) P(k)}{P(b)} \propto L(\sigma) P(k).$$
+Our energy function is the negative-logarithm of the posterior, that is, 
+$$E(k, \sigma) = -\log P(\sigma_{1}^{-1}(b_{1})) - \sum_{j=1}^{N-1} \log Q(\sigma_{j+1}^{-1}(b_{j+1}) \mid \sigma_{j}^{-1}(b_{j})) - \log(k_{1}) - \sum_{j=1}^{N-1}\log Q(k_{j+1} \mid k_{j})$$
+If our current key is $k = (k_{1}, \ldots, k_{N})$, then we may propose a new key by choosing an integer $m \in \{1, \ldots, N\}$ at random and then choosing $m$ distinct indices $i_{1}, \ldots, i_{m} \in \{1, \ldots, N\}$ uniformly at random. We then choose $m$ new letters $k_{i_{1}}', \ldots, k_{i_{m}}'$ uniformly at random. The new key is then $(k_{1}, \ldots, k_{i_{1}}', \ldots, k_{i_{m}}', \ldots, k_{N})$.
 
 \end{document}
