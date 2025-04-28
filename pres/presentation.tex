@@ -22,7 +22,7 @@
 
 \usepackage[numbers,sort&compress]{natbib}
 
-\title[Your Short Title]{My Title}
+\title{Attacking the Vigenere Cipher\\with Pattern Theory}
 \author{Daniel Yao}
 \institute{Johns Hopkins University}
 \date{25 April 2025}
@@ -34,6 +34,50 @@
 \begin{frame}
 
 \titlepage
+
+\end{frame}
+
+%%
+
+\begin{frame}{Introduction}
+
+\begin{block}{Example}
+\end{block}
+
+\vspace{-12pt}
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+  plaintext & z & e & b & r & a \\
+  \hline
+  key & \textcolor{blue}{b} & \textcolor{blue}{a} & b & a & b \\
+  \hline
+  ciphertext & a & e & c & r & b \\
+\end{tabular}
+\end{center}
+
+\begin{block}{Table}
+\end{block}
+
+\vspace{-12pt}
+
+\begin{center}
+\begin{tabular}{c|*{13}{c}}
+ & a & b & c & d & e & f & g & h & i & j & k & l & m \\
+\hline
+\textcolor{blue}{a} & a & b & c & d & e & f & g & h & i & j & k & l & m \\
+\textcolor{blue}{b} & b & c & d & e & f & g & h & i & j & k & l & m & n \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{c|*{13}{c}}
+ & n & o & p & q & r & s & t & u & v & w & x & y & z \\
+\hline
+\textcolor{blue}{a} & n & o & p & q & r & s & t & u & v & w & x & y & z \\
+\textcolor{blue}{b} & o & p & q & r & s & t & u & v & w & x & y & z & a \\
+\end{tabular}
+\end{center}
 
 \end{frame}
 
@@ -56,10 +100,10 @@ $$f^{-1}_{i}(y_{i}) = (y_{i} - k_{i \text{ mod } K}) \text{ mod } |A|.$$
 \vspace{-12pt}
 
 \begin{center}
-\begin{tabular}{cccccc}
+\begin{tabular}{c|ccccc}
   plaintext & z & e & b & r & a \\
   \hline
-  key & b & a & b & a & b \\
+  key & \textcolor{blue}{b} & \textcolor{blue}{a} & b & a & b \\
   \hline
   ciphertext & a & e & c & r & b \\
 \end{tabular}
@@ -71,7 +115,7 @@ $$f^{-1}_{i}(y_{i}) = (y_{i} - k_{i \text{ mod } K}) \text{ mod } |A|.$$
 
 \begin{frame}{Introduction}
 
-\begin{block}{Decipher with $K=3$}
+\begin{block}{Decipher with key length $K=3$}
 \begin{itemize}
 \item \textcolor{red}{iubwbu ujeagppehaqfademkegbiubwbu ujeagppehaqfakndteewljvy}
 \end{itemize}
@@ -83,7 +127,7 @@ $$f^{-1}_{i}(y_{i}) = (y_{i} - k_{i \text{ mod } K}) \text{ mod } |A|.$$
 
 \begin{frame}{Introduction}
 
-\begin{block}{Decipher with $K=3$}
+\begin{block}{Decipher with key length $K=3$}
 \begin{itemize}
 \item \textcolor{red}{iubwbu ujeagppehaqfademkegbiubwbu ujeagppehaqfakndteewljvy}
 \item \textcolor{red}{iubwbu }\textcolor{blue}{uje}\textcolor{red}{agppehaqfademkegbiubwbu }\textcolor{blue}{uje}\textcolor{red}{agppehaqfakndteewljvy}
@@ -96,7 +140,7 @@ $$f^{-1}_{i}(y_{i}) = (y_{i} - k_{i \text{ mod } K}) \text{ mod } |A|.$$
 
 \begin{frame}{Introduction}
 
-\begin{block}{Decipher with $K=3$}
+\begin{block}{Decipher with key length $K=3$}
 \begin{itemize}
 \item \textcolor{red}{iubwbu ujeagppehaqfademkegbiubwbu ujeagppehaqfakndteewljvy}
 \item \textcolor{red}{iubwbu }\textcolor{blue}{uje}\textcolor{red}{agppehaqfademkegbiubwbu }\textcolor{blue}{uje}\textcolor{red}{agppehaqfakndteewljvy}
@@ -110,7 +154,7 @@ $$f^{-1}_{i}(y_{i}) = (y_{i} - k_{i \text{ mod } K}) \text{ mod } |A|.$$
 
 \begin{frame}{Introduction}
 
-\begin{block}{Decipher with $K=3$}
+\begin{block}{Decipher with key length $K=3$}
 \begin{itemize}
 \item \textcolor{red}{iubwbu ujeagppehaqfademkegbiubwbu ujeagppehaqfakndteewljvy}
 \item \textcolor{red}{iubwbu }\textcolor{blue}{uje}\textcolor{red}{agppehaqfademkegbiubwbu }\textcolor{blue}{uje}\textcolor{red}{agppehaqfakndteewljvy}
@@ -120,7 +164,7 @@ $$f^{-1}_{i}(y_{i}) = (y_{i} - k_{i \text{ mod } K}) \text{ mod } |A|.$$
 
 \begin{block}{Solution}
 \begin{itemize}
-\item abc
+\item \textcolor{blue}{abc}
 \end{itemize}
 \end{block}
 
@@ -134,9 +178,8 @@ $$f^{-1}_{i}(y_{i}) = (y_{i} - k_{i \text{ mod } K}) \text{ mod } |A|.$$
 \begin{itemize}
 \item English is a stationary ergodic stochastic process with state space (alphabet)
 $$A = \{a, \ldots, z, \_\}.$$
-\item The character $2$-gram model is that English is a Markov chain $X_{1}, X_{2}, \ldots$ with state space $A$ and transition matrix 
+\item The \textit{character $2$-gram model} is that English is a Markov chain $X_{1}, X_{2}, \ldots$ with state space $A$ and transition matrix 
 $$Q^{(2)}(x_{1}, x_{0}) = P(X_{1} = x_{1} \mid X_{0} = x_{0}).$$
-\item $Q^{(2)}$ may be estimated from a large corpus.
 \end{itemize}
 \end{block}
 
@@ -255,7 +298,7 @@ $$\arg\max p_{\beta}(f) = \arg\max L(f).$$
 \begin{center}
 \begin{tabular}{ccccc}
 \hline
-$K$ & $N/K$ & Count & Accuracy & Run Time \\
+$K$ & $N/K$ & Count & Accuracy & Run Time (s) \\
 \hline
 592 & $N/1$ & 49   & 0.0828 & 598 \\
 296 & $N/2$ & 130  & 0.2196 & 360 \\
